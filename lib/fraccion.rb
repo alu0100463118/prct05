@@ -1,4 +1,4 @@
-#require 'mcd'
+
 
 class Fraccion
   attr_reader :a, :b
@@ -10,16 +10,13 @@ class Fraccion
     self.reduce()
   end
   def reduce()                # Método encargado de la simplificación del objeto fracción que lo llama
-  #  div = Mcd(@numerador, @denominador)
-    div = a.abs, b.abs #[a.abs, b.abs]
-    while div.min != 0
-      div = div.min, div.max%div.min
-    end
+    div = @a.gcd(@b)
     @a = @a / div
     @b = @b / div
   end
   def to_s
-	  salida="(#{@a} / #{@b})"
+	  salida="(#{@a}/#{@b})"
+	  salida
   end
   def + (frac)
     Fraccion.new(@a*frac.b + frac.a*@b, @b*frac.b)
@@ -28,12 +25,8 @@ class Fraccion
     Fraccion.new(@a*frac.b - frac.a*@b, @b*frac.b)
   end
   def * (frac)
-		if (frac.is_a?(Fraccion))
-			Fraccion.new((@a *frac.a) - (@b * frac.b), (@a * frac.b) + (@b * frac.a))
-		else
-			Fraccion.new(frac * @a, frac * @b)
-		end
-	end
+	  Fraccion.new(frac.a * @a, frac.b * @b)
+  end
 	def / (frac)
 		Fraccion.new(@a*frac.b,@b*frac.a)
 	end
